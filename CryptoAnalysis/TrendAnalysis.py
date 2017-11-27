@@ -25,15 +25,19 @@ def calculate_percent(current, data):
 
 
 def print_trend(coin, data):
+    coin_trend = "Trend for coin : " + coin + "\n"
     print("Printing trend for coin : " + coin)
     for key in sorted(data):
-        print(beautify_interval(key) + " : " + str(data[key]) + " %")
+        trend = beautify_interval(key) + " : " + str(data[key]) + " %"
+        coin_trend += trend + "\n"
+        print(trend)
+    return coin_trend
 
 
 def beautify_interval(interval):
     if interval < 60:
         return str(interval) + "m"
     elif interval < 3600:
-        return str(interval / 60.0) + "h"
+        return str(interval / 60) + "h"
     else:
-        return str(interval / 3600.0) + "d"
+        return str(interval / 3600) + "d"
