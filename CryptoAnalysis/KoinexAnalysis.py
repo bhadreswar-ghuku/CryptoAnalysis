@@ -56,3 +56,12 @@ class KoinexAnalysis:
             print("Sent koinex crypto report to email id : " + self.email + " for time : " + timestamp)
         else:
             print("Koinex crypto report isn't ready, Try after 1s")
+
+    def current_rate(self):
+        page = requests.get(self.koinex_ticker_url)
+        json_result = page.json()
+        prices = json_result["prices"]
+        price_dict = {}
+        for coin in self.crypto_coins:
+            price_dict[coin.lower()] = prices[coin]
+        return price_dict
