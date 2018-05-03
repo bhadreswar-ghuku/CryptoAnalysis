@@ -12,7 +12,7 @@ class CoinMarketCapAnalysis:
     daily_market_snap_file_name = "../Data/coinmarketdata/daily_market_snap"
     global_market_snap_file_name = "../Data/coinmarketdata/global_market_data"
     top_coins = 50
-    coins_headers = "rank,id,symbol,price_usd,price_btc,24h_volume_usd,market_cap_usd,percent_change_1h," \
+    coins_headers = "rank,id,symbol,price_usd,price_btc,24h_volume_usd(m),market_cap_usd(b),percent_change_1h," \
                     "percent_change_24h,percent_change_7d "
     global_market_headers = "date,total_market_cap,total_1d_vol,bitcoin_percent,active_currencies,active_assets," \
                             "active_markets "
@@ -38,8 +38,8 @@ class CoinMarketCapAnalysis:
             text += coin["symbol"] + self.comma
             text += coin["price_usd"] + self.comma
             text += coin["price_btc"] + self.comma
-            text += "$" + str(float(coin["24h_volume_usd"]) / 1000000) + "m" + self.comma
-            text += "$" + str(float(coin["market_cap_usd"]) / 1000000000) + "b" + self.comma
+            text += str(float(coin["24h_volume_usd"]) / 1000000) + self.comma
+            text += str(float(coin["market_cap_usd"]) / 1000000000) + self.comma
             text += coin["percent_change_1h"] + self.comma
             text += coin["percent_change_24h"] + self.comma
             text += coin["percent_change_7d"]
@@ -48,7 +48,7 @@ class CoinMarketCapAnalysis:
         return text
 
     def persist_coin_daily_data(self):
-        today_data_file = self.daily_market_snap_file_name + '_' + date_string_today()
+        today_data_file = self.daily_market_snap_file_name + '_' + date_string_today() + ".csv"
         try:
             with open(today_data_file, 'w') as f:
                 for line in self.data:
@@ -84,7 +84,7 @@ class CoinMarketCapAnalysis:
             data += str(json_result['active_assets']) + self.comma
             data += str(json_result['active_markets'])
         except Exception as e:
-            data = str(e)
+            data = ''
         if data != '':
             print(self.global_market_headers)
             print(data)

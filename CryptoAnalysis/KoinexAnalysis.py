@@ -63,5 +63,5 @@ class KoinexAnalysis:
         prices = json_result["prices"]
         price_dict = {}
         for coin in self.crypto_coins:
-            price_dict[coin.lower()] = prices[coin]
+            price_dict[coin] = prices[coin]
         return price_dict
